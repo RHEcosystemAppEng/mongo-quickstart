@@ -1,7 +1,8 @@
-package com.gahlot.learn.quarkus.codec;
+package com.redhat.sample.quarkus.codec;
 
-import com.gahlot.learn.quarkus.Fruit;
+import com.redhat.sample.quarkus.Fruit;
 import com.mongodb.MongoClientSettings;
+
 import org.bson.*;
 import org.bson.codecs.Codec;
 import org.bson.codecs.CollectibleCodec;
@@ -10,8 +11,8 @@ import org.bson.codecs.EncoderContext;
 
 import java.util.UUID;
 
-import static com.gahlot.learn.quarkus.service.FruitService.DESC;
-import static com.gahlot.learn.quarkus.service.FruitService.NAME;
+import static com.redhat.sample.quarkus.service.FruitService.DESC;
+import static com.redhat.sample.quarkus.service.FruitService.NAME;
 
 
 // Takes care of transforming the entity to/from MongoDB Document. Using "CollectibleCodec" as the object is retrieved from DB

@@ -1,7 +1,8 @@
-package com.gahlot.learn.quarkus.resource;
+package com.redhat.sample.quarkus.resource;
 
-import com.gahlot.learn.quarkus.Fruit;
-import com.gahlot.learn.quarkus.service.FruitReactiveService;
+import com.redhat.sample.quarkus.Fruit;
+import com.redhat.sample.quarkus.service.FruitReactiveService;
+
 import io.smallrye.mutiny.Uni;
 
 import javax.inject.Inject;

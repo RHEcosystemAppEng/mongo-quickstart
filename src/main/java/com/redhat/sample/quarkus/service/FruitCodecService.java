@@ -1,4 +1,4 @@
-package com.gahlot.learn.quarkus.service;
+package com.redhat.sample.quarkus.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.gahlot.learn.quarkus.Fruit;
+import com.redhat.sample.quarkus.Fruit;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;

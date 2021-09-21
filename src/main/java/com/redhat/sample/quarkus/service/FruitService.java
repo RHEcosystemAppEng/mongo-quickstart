@@ -1,9 +1,10 @@
-package com.gahlot.learn.quarkus.service;
+package com.redhat.sample.quarkus.service;
 
-import com.gahlot.learn.quarkus.Fruit;
+import com.redhat.sample.quarkus.Fruit;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+
 import org.bson.Document;
 
 import javax.enterprise.context.ApplicationScoped;

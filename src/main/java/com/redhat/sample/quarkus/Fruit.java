@@ -1,4 +1,4 @@
-package com.gahlot.learn.quarkus;
+package com.redhat.sample.quarkus;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

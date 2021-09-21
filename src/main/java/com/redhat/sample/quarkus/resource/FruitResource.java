@@ -1,15 +1,14 @@
-package com.gahlot.learn.quarkus.resource;
+package com.redhat.sample.quarkus.resource;
 
-import com.gahlot.learn.quarkus.Fruit;
-import com.gahlot.learn.quarkus.service.FruitService;
+import com.redhat.sample.quarkus.Fruit;
+import com.redhat.sample.quarkus.service.FruitService;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+
 import java.util.List;
 
 @Path("/fruits")

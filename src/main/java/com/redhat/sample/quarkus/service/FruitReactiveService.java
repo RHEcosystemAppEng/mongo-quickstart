@@ -1,6 +1,6 @@
-package com.gahlot.learn.quarkus.service;
+package com.redhat.sample.quarkus.service;
 
-import com.gahlot.learn.quarkus.Fruit;
+import com.redhat.sample.quarkus.Fruit;
 import io.quarkus.mongodb.reactive.ReactiveMongoClient;
 import io.quarkus.mongodb.reactive.ReactiveMongoCollection;
 import io.smallrye.mutiny.Uni;
@@ -10,8 +10,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
-import static com.gahlot.learn.quarkus.service.FruitService.DESC;
-import static com.gahlot.learn.quarkus.service.FruitService.NAME;
+import static com.redhat.sample.quarkus.service.FruitService.DESC;
+import static com.redhat.sample.quarkus.service.FruitService.NAME;
 
 @ApplicationScoped
 public class FruitReactiveService {

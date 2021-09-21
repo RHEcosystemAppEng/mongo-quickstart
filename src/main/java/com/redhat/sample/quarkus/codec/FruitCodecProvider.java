@@ -1,6 +1,6 @@
-package com.gahlot.learn.quarkus.codec;
+package com.redhat.sample.quarkus.codec;
 
-import com.gahlot.learn.quarkus.Fruit;
+import com.redhat.sample.quarkus.Fruit;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
