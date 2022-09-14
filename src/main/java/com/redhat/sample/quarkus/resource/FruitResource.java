@@ -22,7 +22,7 @@ public class FruitResource {
 
     @GET
     public List<Fruit> getFruits() {
-        logger.info("Retrieving fruits list");
+        logger.info("Retrieving fruits list: new");
         List<Fruit> fruits = fruitService.getFruits();
         logger.info("Fruits -> " + fruits);
         return fruits;

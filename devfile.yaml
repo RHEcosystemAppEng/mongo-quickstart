@@ -1,0 +1,124 @@
+commands:
+- exec:
+    commandLine: mvn -Dmaven.repo.local=/home/user/.m2/repository compile
+    component: tools
+    hotReloadCapable: false
+    workingDir: ${PROJECT_SOURCE}
+  id: init-compile
+- exec:
+    commandLine: mvn -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0
+      -Djava.util.logging.manager=org.jboss.logmanager.LogManager
+    component: tools
+    group:
+      isDefault: true
+      kind: run
+    hotReloadCapable: true
+    workingDir: ${PROJECT_SOURCE}
+  id: dev-run
+- exec:
+    commandLine: mvn -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0
+      -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Ddebug=${DEBUG_PORT}
+    component: tools
+    group:
+      isDefault: true
+      kind: debug
+    hotReloadCapable: true
+    workingDir: ${PROJECT_SOURCE}
+  id: dev-debug
+components:
+- container:
+    dedicatedPod: false
+    endpoints:
+    - name: http-quarkus
+      secure: false
+      targetPort: 8080
+    env:
+    - name: DEBUG_PORT
+      value: "5858"
+    image: registry.access.redhat.com/ubi8/openjdk-11
+    memoryLimit: 512Mi
+    mountSources: true
+    volumeMounts:
+    - name: m2
+      path: /home/user/.m2
+  name: tools
+- name: m2
+  volume:
+    ephemeral: false
+    size: 3Gi
+- kubernetes:
+    inlined: |
+      apiVersion: dbaas.redhat.com/v1alpha1
+      kind: DBaaSInventory
+      metadata:
+        name: myinventory
+      spec:
+        credentialsRef:
+          name: my-atlas-key
+        providerRef:
+          name: mongodb-atlas-registration
+  name: myinventory
+- kubernetes:
+    inlined: |
+      apiVersion: dbaas.redhat.com/v1alpha1
+      kind: DBaaSConnection
+      metadata:
+        name: myconnection
+      spec:
+        instanceID: 62f5a5ec7b1dc86ddb91b8ba
+        inventoryRef:
+          name: myinventory
+          namespace: openshift-dbaas-operator
+  name: myconnection
+- kubernetes:
+    inlined: |
+      apiVersion: binding.operators.coreos.com/v1alpha1
+      kind: ServiceBinding
+      metadata:
+        creationTimestamp: null
+        name: mytestcomponent-dbaasconnection-myconnection
+      spec:
+        application:
+          group: apps
+          name: mytestcomponent-app
+          resource: deployments
+          version: v1
+        bindAsFiles: true
+        detectBindingResources: true
+        mappings:
+        - name: credentials
+          value: path={.myconnection.status.credentialsRef.name},objectType=Secret
+        - name: configuration
+          value: path={.myconnection.status.connectionInfoRef.name},objectType=ConfigMap
+        services:
+        - group: dbaas.redhat.com
+          id: myconnection
+          kind: DBaaSConnection
+          name: myconnection
+          version: v1alpha1
+      status:
+        secret: ""
+  name: mytestcomponent-dbaasconnection-myconnection
+events:
+  postStart:
+  - init-compile
+metadata:
+  description: Quarkus with Java
+  displayName: Quarkus Java
+  icon: https://design.jboss.org/quarkus/logo/final/SVG/quarkus_icon_rgb_default.svg
+  language: java
+  name: mytestcomponent
+  projectType: quarkus
+  tags:
+  - Java
+  - Quarkus
+  version: 1.1.0
+  website: https://quarkus.io
+schemaVersion: 2.1.0
+starterProjects:
+- name: community
+  zip:
+    location: https://code.quarkus.io/d?e=io.quarkus%3Aquarkus-resteasy&e=io.quarkus%3Aquarkus-micrometer&e=io.quarkus%3Aquarkus-smallrye-health&e=io.quarkus%3Aquarkus-openshift&cn=devfile
+- name: redhat-product
+  zip:
+    location: https://code.quarkus.redhat.com/d?e=io.quarkus%3Aquarkus-resteasy&e=io.quarkus%3Aquarkus-smallrye-health&e=io.quarkus%3Aquarkus-openshift
