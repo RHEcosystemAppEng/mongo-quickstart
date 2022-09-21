@@ -12,8 +12,8 @@ This document walks you through on how to use odo to deploy and test an applicat
 1) Clone git repo for the sample application 
 [mongo-quickstart](https://github.com/RHEcosystemAppEng/mongo-quickstart):
 ```
-git clone git@github.com:RHEcosystemAppEng/mongodb-atlas-kubernetes.git
-cd mongodb-atlas-kubernetes
+git clone git@github.com:RHEcosystemAppEng/mongo-quickstart.git
+cd mongo-quickstart
 ```
 2) Log on to your OpenShift cluster using an cluster admin user and switch to the `openshift-dbaas-opererator` project.
 ```
@@ -99,7 +99,20 @@ Now create a provider service. Note that you can pass in additional parameters u
 ```
 odo service create dbaas-operator.v0.3.1-dev/DBaaSInventory myinventory -p credentialsRef.name=my-atlas-key -p providerRef.name=mongodb-atlas-registration  --inlined
 ```
-8) If you do not have the database instance ID which you want the application to connect to, you can deploy the provider account service first.
+## Connect to a new database instance
+8) If you want to connect the application to a new database instance, you can first create a service for DBaaSInstance and then create a connection using the instanceRef. 
+```
+cluster=my-cluster-free-401
+atlas-project=my-atlas-project-free-test-401
+
+odo service create dbaas-operator.v0.3.1-dev/DBaaSInstance myinstance -p inventoryRef.name=myinventory -p inventoryRef.namespace=openshift-dbaas-operator -p name=$cluster -p otherInstanceParams.projectName=${atlas-project}  --inlined
+```
+
+```
+odo service create dbaas-operator.v0.3.1-dev/DBaaSConnection myconnection -p instanceRef.name=myinstance -p instanceRef.namespace=openshift-dbaas-operator -p inventoryRef.name=myinventory -p inventoryRef.namespace=openshift-dbaas-operator   --inlined
+```
+## Connect to an existing database instance
+9) If you already have the instanceID for an existing database you want your application to, you can create a connection usign the instanceID. If you do not know the instanceID, you can deploy the provider account service first and then find the instanceID.
 ```
 odo push
 ```
@@ -130,19 +143,19 @@ You can find the instance list like below:
       Region Name:                      US_EAST_1
       State:                            Ready
 ```
-8) Now you can create a connection service.
+10) Now you can create a connection service.
 ```
 odo service create dbaas-operator.v0.3.1-dev/DBaaSConnection myconnection -p instanceID=<my DB instance ID> -p inventoryRef.name=myinventory -p inventoryRef.namespace=openshift-dbaas-operator   --inlined
 ```
-9) Create a service binding.
+## Create service binding
+11) Create a service binding.
 ```
 odo link DBaaSConnection/myconnection --map credentials='path={.myconnection.status.credentialsRef.name},objectType=Secret' --map configuration='path={.myconnection.status.connectionInfoRef.name},objectType=ConfigMap' --bind-as-files --inlined
 ```
-10) Deploy the application, services and service binding to the cluster.
+12) Deploy the application, services and service binding to the cluster.
 ```
 odo push
 ```
-11) 
 # References
 [Understanding odo](https://docs.openshift.com/container-platform/4.11/cli_reference/developer_cli_odo/understanding-odo.html)
 

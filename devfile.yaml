@@ -61,11 +61,27 @@ components:
 - kubernetes:
     inlined: |
       apiVersion: dbaas.redhat.com/v1alpha1
+      kind: DBaaSInstance
+      metadata:
+        name: myinstance
+      spec:
+        inventoryRef:
+          name: myinventory
+          namespace: openshift-dbaas-operator
+        name: my-cluster-free-401
+        otherInstanceParams:
+          projectName: project
+  name: myinstance
+- kubernetes:
+    inlined: |
+      apiVersion: dbaas.redhat.com/v1alpha1
       kind: DBaaSConnection
       metadata:
         name: myconnection
       spec:
-        instanceID: 62f5a5ec7b1dc86ddb91b8ba
+        instanceRef:
+          name: myinstance
+          namespace: openshift-dbaas-operator
         inventoryRef:
           name: myinventory
           namespace: openshift-dbaas-operator
