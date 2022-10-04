@@ -156,6 +156,20 @@ odo link DBaaSConnection/myconnection --map credentials='path={.myconnection.sta
 ```
 odo push
 ```
+# Assessments for RHODA Integration
+## Supported Functionalities
+odo is capable of:
+1) Deploying the sample Mongo Quick Start application to a cluster without the need to first build the image and construct the manifest file for the application.
+2) Creating odo services for RHODA provider accounts, instances and connections with commandline parameters.
+3) Creating serving binding with odo parameters.
+In addition, #1 and #2 above are supported in IDEs such as Visual Studio Code as part of OpenShift Extension.
+## Limitations
+There are several limitations which can hinder the developer's work:
+1) Odo does not have ability to display the CR status of RHODA provider accounts, instances and connections, and hence it is hard for developers to troubleshoot any issues with those services without using OpenShift Client (oc) or OpenShift Console.
+2) The OpenShift Extension for IDE is not able to create the service bindings for binding of an application with RHODA connections. Such service bindings need to be done in command line instead.
+3) Odo and OpenShift Extension fo IDEr do not have capabilities to filter out odo services that are not related to RHODA application development (such as DBaaSPlatform or other non-RHODA custom resources).
+
+Due to such limilations, current odo or OpenShift Extension releases are not well positioned to support application developers for RHODA.
 # References
 [Understanding odo](https://docs.openshift.com/container-platform/4.11/cli_reference/developer_cli_odo/understanding-odo.html)
 
