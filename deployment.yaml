@@ -15,6 +15,10 @@ items:
           labels:
             name: fruit-shop
         spec:
+          securityContext:
+            seccompProfile: 
+              type: RuntimeDefault 
+            runAsNonRoot: true
           containers:
             - name: fruit-shop
               image: quay.io/ecosystem-appeng/mongo-quickstart:0.0.2-SNAPSHOT
@@ -22,6 +26,11 @@ items:
               ports:
                 - containerPort: 8080
                   protocol: TCP
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
   - kind: Service
     apiVersion: v1
     metadata:
